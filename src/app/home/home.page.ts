@@ -74,7 +74,8 @@ async loadFileData(fileNames: FileInfo[]) {
       quality: 90,
       allowEditing: false,
       resultType: CameraResultType.Uri,
-      source: CameraSource.Camera
+      //Camera, para el celu. Photos, para subir una foto.
+      source: CameraSource.Camera 
     });
     console.log(image);
     
@@ -130,12 +131,17 @@ async loadFileData(fileNames: FileInfo[]) {
     reader.readAsDataURL(blob);
   });
 
-  startUpload() {
+  startUpload(file: LocalFile) {
 
   }
 
-  deleteImage() {
-    
+  async deleteImage(file: LocalFile) {
+    await Filesystem.deleteFile({
+      directory: Directory.Data,
+      path: file.path
+    })
+    this.loadFiles();
   }
+ 
 
 }

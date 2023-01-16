@@ -18,10 +18,10 @@
     <ion-label class="ion-text-wrap">
       {{ file.name }}
     </ion-label>
-    <ion-button slot="end" fill="clear" (click)="startUpload()">
+    <ion-button slot="end" fill="clear" (click)="startUpload(file)">
       <ion-icon slot="icon-only" name="clloud-upload"></ion-icon>
     </ion-button>
-    <ion-button slot="end" fill="clear" (click)="deleteImage()">
+    <ion-button slot="end" fill="clear" (click)="deleteImage(file)">
       <ion-icon slot="icon-only" name="trash"></ion-icon>
     </ion-button>
   </ion-item>

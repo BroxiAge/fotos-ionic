@@ -75,7 +75,7 @@ async loadFileData(fileNames: FileInfo[]) {
       allowEditing: false,
       resultType: CameraResultType.Uri,
       //Camera, para el celu. Photos, para subir una foto.
-      source: CameraSource.Camera 
+      source: CameraSource.Camera
     });
     console.log(image);
     
@@ -131,8 +131,23 @@ async loadFileData(fileNames: FileInfo[]) {
     reader.readAsDataURL(blob);
   });
 
-  startUpload(file: LocalFile) {
+  async startUpload(file: LocalFile) {
+    const response = await fetch(file.data)
+    // console.log(response)
+    const blob = await response.blob();
+    // console.log(blob)
+    const formData = new FormData();
+    formData.append('file', blob, file.name)
+    this.uploadData(formData);
+  }
 
+  async uploadData(formData: FormData) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Uploading image...'
+    })
+    
+
+    // const url = 'http://localhost:8080/images/upload.php'
   }
 
   async deleteImage(file: LocalFile) {

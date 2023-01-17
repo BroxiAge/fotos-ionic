@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Directory, FileInfo, Filesystem } from '@capacitor/filesystem'
 import { LoadingController, Platform } from '@ionic/angular';
-import { async } from 'rxjs';
+
 const IMAGE_DIR = 'stored-images';
+const DIRECTORY_MODE = Directory.Documents
 
 interface LocalFile {
   name: string;
@@ -35,7 +36,7 @@ export class HomePage implements OnInit {
     await loading.present();
 
     Filesystem.readdir({
-      directory: Directory.Data,
+      directory: DIRECTORY_MODE,
       path: IMAGE_DIR
     }).then(result => {
       console.log('HERE', result)
@@ -43,7 +44,7 @@ export class HomePage implements OnInit {
     }, async err => {
       // console.log('error', err)
       await Filesystem.mkdir({
-        directory: Directory.Data,
+        directory: DIRECTORY_MODE,
         path: IMAGE_DIR
       });
     }).then(_ =>{
@@ -58,7 +59,7 @@ async loadFileData(fileNames: FileInfo[]) {
 	for (let f of fileNames) {
   const filePath = `${IMAGE_DIR}/${f.name}`
   const readFile = await Filesystem.readFile({
-    directory: Directory.Data,
+    directory: DIRECTORY_MODE,
     path: filePath
   })
   this.images.push({
@@ -92,7 +93,7 @@ async loadFileData(fileNames: FileInfo[]) {
 
     const fileName = new Date().getTime() + '.jpeg';
     const savedFile = await Filesystem.writeFile({
-      directory: Directory.Data,
+      directory: DIRECTORY_MODE,
       path: `${IMAGE_DIR}/${fileName}`,
       data: base64Data
     });
@@ -152,7 +153,7 @@ async loadFileData(fileNames: FileInfo[]) {
 
   async deleteImage(file: LocalFile) {
     await Filesystem.deleteFile({
-      directory: Directory.Data,
+      directory: DIRECTORY_MODE,
       path: file.path
     })
     this.loadFiles();
